@@ -5,7 +5,8 @@ namespace CartingService.BLL.DTOs
     public class AddItemDto
     {
         [Required]
-        public string Id { get; set; }
+        [RegularExpression(@"(?im)^[{(]?[0-9A-F]{8}[-]?(?:[0-9A-F]{4}[-]?){3}[0-9A-F]{12}[)}]?$")]
+        public Guid Id { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]

@@ -18,9 +18,13 @@ namespace CartingService.BLL.Application
 
         public async Task AddItemToCart(AddItemDto item)
         {
-            await _mongo._cartRepository.AddItem(item);
+            var itemMongo = _mongo._itemRepository.GetItemById(item.Id);
+            if (itemMongo == null)
+            {
+                await _mongo._cartRepository.AddItem(item);
+            }
         }
-
+         
         public async Task RemoveItemFromCart(RemoveItemDto item)
         {
             await _mongo._cartRepository.RemoveItem(item);

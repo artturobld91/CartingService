@@ -1,4 +1,6 @@
-﻿using MongoDB.Driver;
+﻿using CartingService.BLL.DTOs;
+using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace CartingService.DAL.Repositories
 {
@@ -28,6 +30,16 @@ namespace CartingService.DAL.Repositories
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        public async Task<ItemDto> GetItemById(Guid id)
+        {
+            var database = _client.GetDatabase("carting");
+            var itemsCollection = database.GetCollection<ItemDto>("items");
+            var items = await itemsCollection.FindAsync(item => item.Id == id);
+            return items is not null 
+                    ? items.FirstOrDefault() 
+                    : null;
         }
     }
 }
